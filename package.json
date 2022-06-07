@@ -7,9 +7,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "ByMikiii",
   "license": "ISC",
   "dependencies": {
-    "node-fetch": "^3.2.5"
+    "node-fetch": "^3.2.5",
+    "query-string": "^7.1.1"
   }
 }
