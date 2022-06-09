@@ -13,10 +13,14 @@ import { clientId, secret, accessToken } from './settings.js';
 
 var isLive;
 var listOfUsers;
+var numberOfAddedUsers = 0;
+
+const streamerName = '';//ENTER TWITCH USERNAME
+const liveTimer = 60 * 1000; //TIME HOW OFTEN APP CHECKS IF USER IS STREAMING
+const pointsTimer = 60 * 1000; //TIME HOW OFTEN APP ADDS POINTS TO USERS
+const pointsDelay = 1 //DELAY BETWEEN POINTS INSERT
 
 function appRunning() {
-  var streamerName = 'resttpowered';
-
   //CHECKS IF STREAMER IS STREAMING
   fetch('https://api.twitch.tv/helix/search/channels?query=' + streamerName, {
     headers: {
@@ -31,7 +35,7 @@ function appRunning() {
         //IF STREAMER IS OFFLINE 
         if (!isLive) {
           console.log(streamerName + ' is offline! :(');
-          setTimeout(appRunning, 1000);
+          setTimeout(appRunning, liveTimer);
 
         }
         //IF STREAMER IS ONLINE
@@ -59,15 +63,35 @@ function appRunning() {
       })
 }
 
-
 appRunning();
-
-
 
 function insertUser(value) {
   var recentUsername = listOfUsers[value];
+  console.log(recentUsername);
+  con.connect(function (err) {
+    var sql = "SELECT points FROM users WHERE username = '" + recentUsername + "'";
+    con.query(sql, function (err, result, fields, rows) {
+      if (err) throw err;
+      if (result.length > 0) {
+        var newUserPoints = result[0]['points'] + 1;
+        addPointsToUser(recentUsername, newUserPoints);
+      } else createUserDB(recentUsername);
+    });
+  });
+  if (value + 1 < listOfUsers.length) {
+    setTimeout(() => {
+      value++;
+      insertUser(value);
+    }, pointsDelay)
+  } else {
+    console.log(numberOfAddedUsers + ' new users')
+    numberOfAddedUsers = 0;
+    setTimeout(appRunning, pointsTimer);
+  }
+}
 
-  //CREATES USER IN DATABASE
+//CREATES USER IN DB
+function createUserDB(recentUsername) {
   con.connect(function (err) {
     var sql = "INSERT INTO users (username, points) VALUES ('" + recentUsername + "', 1)";
     con.query(sql, function (err, result) {
@@ -77,14 +101,23 @@ function insertUser(value) {
     )
   }
   )
-
-  if (value + 1 < listOfUsers.length) {
-    setTimeout(() => {
-      value++;
-      insertUser(value);
-    }, 10)
-  }
+  numberOfAddedUsers++;
 }
+
+function addPointsToUser(recentUsername, newUserPoints) {
+  con.connect(function (err) {
+    var sql = "UPDATE users SET points = " + newUserPoints + " WHERE username = '" + recentUsername + "'";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log('Points added to ' + recentUsername);
+    }
+    )
+  }
+  )
+}
+
+
+
 
 
 // create database TwitchLoyalty;
