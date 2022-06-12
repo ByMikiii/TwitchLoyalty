@@ -14,8 +14,9 @@ import { clientId, secret, accessToken } from './settings.js';
 var isLive;
 var listOfUsers;
 var numberOfAddedUsers = 0;
+var usersChecked = 0;
 
-const streamerName = '';//ENTER TWITCH USERNAME
+const streamerName = 'opat04';//ENTER TWITCH USERNAME
 const liveTimer = 60 * 1000; //TIME HOW OFTEN APP CHECKS IF USER IS STREAMING
 const pointsTimer = 60 * 1000; //TIME HOW OFTEN APP ADDS POINTS TO USERS
 const pointsDelay = 1 //DELAY BETWEEN POINTS INSERT
@@ -78,15 +79,17 @@ function insertUser(value) {
       } else createUserDB(recentUsername);
     });
   });
+  usersChecked++;
   if (value + 1 < listOfUsers.length) {
     setTimeout(() => {
       value++;
       insertUser(value);
     }, pointsDelay)
   } else {
-    console.log(numberOfAddedUsers + ' new users')
+    console.log(numberOfAddedUsers + ' new users.');
+    console.log(usersChecked + ' users checked.');
     numberOfAddedUsers = 0;
-    setTimeout(appRunning, pointsTimer);
+    setTimeout(appRunning, pointsTimer - usersChecked * pointsDelay);
   }
 }
 
