@@ -16,7 +16,7 @@ var listOfUsers;
 var numberOfAddedUsers = 0;
 var usersChecked = 0;
 
-const streamerName = 'opat04';//ENTER TWITCH USERNAME
+const streamerName = 'dev1';//ENTER TWITCH USERNAME
 const liveTimer = 60 * 1000; //TIME HOW OFTEN APP CHECKS IF USER IS STREAMING
 const pointsTimer = 60 * 1000; //TIME HOW OFTEN APP ADDS POINTS TO USERS
 const pointsDelay = 1 //DELAY BETWEEN POINTS INSERT
@@ -42,6 +42,7 @@ function appRunning() {
         //IF STREAMER IS ONLINE
         else {
           console.log(streamerName + ' is live! :)');
+          usersChecked = 0;
 
           //GETS ALL CHATTERS
           fetch('https://tmi.twitch.tv/group/user/' + streamerName + '/chatters')
@@ -89,7 +90,7 @@ function insertUser(value) {
     console.log(numberOfAddedUsers + ' new users.');
     console.log(usersChecked + ' users checked.');
     numberOfAddedUsers = 0;
-    setTimeout(appRunning, pointsTimer - usersChecked * pointsDelay);
+    setTimeout(appRunning, pointsTimer - (usersChecked * pointsDelay));
   }
 }
 
@@ -126,9 +127,22 @@ function addPointsToUser(recentUsername, newUserPoints) {
 // create database TwitchLoyalty;
 // use TwitchLoyalty;
 // create table users
-// (
+//   (
 //     id       int auto_increment
 //         primary key,
 //     username varchar(64) null,
-//     points   int         null
-// );
+//     points   int         null,
+//     max_points int null,
+//     admin BOOLEAN default 0
+//   );
+// create table items
+//   (
+//     id       int auto_increment
+//         primary key,
+//     name varchar(64) null,
+//     price   int         null,
+//     active BOOLEAN default 0,
+//     description text,
+//     items_left int default 0,
+//     max_items_left int default 0
+//   );
