@@ -3,8 +3,10 @@ if(isset($_POST['username']) && !isset($_SESSION)){
   session_start();
   $username = $_POST['username'];
   $points = $_POST['points'];
+  $isAdmin = $_POST['isAdmin'];
   $_SESSION['username'] = $username;
   $_SESSION['points'] = $points;
+  $_SESSION['isAdmin'] = $isAdmin;
 
 }
 if(!isset($_SESSION)){
@@ -29,7 +31,10 @@ if(!isset($_SESSION)){
   <div
     class='text-redpink-100 font-medium text-lg relative border-b border-redpink-100 p-2 px-5 flex items-center h-14'>
     <a href="/twitch/" class=' mr-6 hover:mb-0.5'>Store</a>
-    <a href="/twitch/leaderboard/" class=' hover:mb-0.5'>Leaderboard</a>
+    <a href="/twitch/leaderboard/" class=' mr-6 hover:mb-0.5'>Leaderboard</a>
+    <?php if( isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1): ?>
+    <a href="/twitch/manager/" class=' hover:mb-0.5'>Manage Items</a>
+    <?php endif; ?>
     <?php if(!isset($_SESSION['username'])): ?>
     <button class='text-gray-900 bg-redpink-100 p-1.5 font-semibold rounded-md hover:brightness-110 ml-auto items-end'>
       <a
@@ -52,7 +57,7 @@ if(!isset($_SESSION)){
         class='bg-darkblue-100 p-1.5 dropdown-items flex flex-col text-center absolute rounded-md border'>
         <a href="/twitch/profile/" class='text-gray-100 hover:text-redpink-100 mb-0.5'>Profile</a>
         <a href="/twitch/profile/" class='text-gray-100 hover:text-redpink-100 mb-0.5'>Settings</a>
-        <a href="/twitch/scripts/logout.php" class='text-red-400 hover:text-redpink-100'>Logout</a>
+        <a href="/twitch/scripts/logout.php" class='text-red-600 hover:brightness-125'>Logout</a>
       </div>
     </div>
     <?php endif; ?>

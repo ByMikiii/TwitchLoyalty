@@ -60,6 +60,7 @@ foreach ($allUsers as $allUser){
   if ($allUser['username'] == $login){
     $userFound = true;
     $points = $allUser['points'];
+    $isAdmin = $allUser['admin'];
   }
 }
 
@@ -67,6 +68,7 @@ if(!$userFound && isset($login)){
   $sql = "INSERT INTO users (username, points) VALUES ('".$login."', 1)";
   $conn->query($sql) === TRUE;
   $points = 1;
+  $isAdmin = 0;
 }
 }
 }
@@ -74,6 +76,7 @@ if(!$userFound && isset($login)){
 <form action="./" method="post" id='usernameform' name='usernameform'>
   <input type="hidden" name="username" value="<?php echo $login; ?>">
   <input type="hidden" name="points" value="<?php echo $points; ?>">
+  <input type="hidden" name="isAdmin" value="<?php echo $isAdmin; ?>">
 </form>
 <script>
 document.usernameform.submit();
