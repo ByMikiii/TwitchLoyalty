@@ -16,7 +16,7 @@ var listOfUsers;
 var numberOfAddedUsers = 0;
 var usersChecked = 0;
 
-const streamerName = 'dev1';//ENTER TWITCH USERNAME
+const streamerName = 'angelmelly';//ENTER TWITCH USERNAME
 const liveTimer = 60 * 1000; //TIME HOW OFTEN APP CHECKS IF USER IS STREAMING
 const pointsTimer = 60 * 1000; //TIME HOW OFTEN APP ADDS POINTS TO USERS
 const pointsDelay = 1 //DELAY BETWEEN POINTS INSERT
@@ -97,7 +97,7 @@ function insertUser(value) {
 //CREATES USER IN DB
 function createUserDB(recentUsername) {
   con.connect(function (err) {
-    var sql = "INSERT INTO users (username, points) VALUES ('" + recentUsername + "', 1)";
+    var sql = "INSERT INTO users (username, points) VALUES ('" + recentUsername + "', 0)";
     con.query(sql, function (err, result) {
       if (err) throw err;
       console.log(recentUsername + ' added.');
@@ -128,7 +128,7 @@ function addPointsToUser(recentUsername, newUserPoints) {
 // use TwitchLoyalty;
 // create table users
 //   (
-//     id       int auto_increment
+//     user_id       int auto_increment
 //         primary key,
 //     username varchar(64) null,
 //     points   int         null,
@@ -137,12 +137,19 @@ function addPointsToUser(recentUsername, newUserPoints) {
 //   );
 // create table items
 //   (
-//     id       int auto_increment
+//     item_id       int auto_increment
 //         primary key,
 //     name varchar(64) null,
 //     price   int         null,
-//     active BOOLEAN default 0,
+//     active BOOLEAN default 1,
 //     description text,
 //     items_left int default 0,
-//     max_items_left int default 0
+//     url_image text default 'none'
+//   );
+// create table redeemed_items
+//   (
+//     redeemed_id       int auto_increment
+//     primary key,
+//     user_id int,
+//     item_id int
 //   );
