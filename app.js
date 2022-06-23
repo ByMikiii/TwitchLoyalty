@@ -151,6 +151,8 @@ function addPointsToUser(recentUsername, newUserPoints) {
 //   (
 //     redeemed_id       int auto_increment
 //     primary key,
-//     user_id int,
-//     item_id int
+//     username varchar(64) null,
+//     item_name varchar(64) null,
+//     price int,
+//     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 //   );
