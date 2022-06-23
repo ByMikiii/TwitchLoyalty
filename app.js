@@ -16,7 +16,7 @@ var listOfUsers;
 var numberOfAddedUsers = 0;
 var usersChecked = 0;
 
-const streamerName = 'angelmelly';//ENTER TWITCH USERNAME
+const streamerName = '';//ENTER TWITCH USERNAME
 const liveTimer = 60 * 1000; //TIME HOW OFTEN APP CHECKS IF USER IS STREAMING
 const pointsTimer = 60 * 1000; //TIME HOW OFTEN APP ADDS POINTS TO USERS
 const pointsDelay = 1 //DELAY BETWEEN POINTS INSERT
@@ -119,6 +119,7 @@ function addPointsToUser(recentUsername, newUserPoints) {
   }
   )
 }
+
 
 
 

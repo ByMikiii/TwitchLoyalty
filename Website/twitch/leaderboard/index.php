@@ -25,7 +25,7 @@ $maxPage = ceil($numberOfUsers / $results_per_page);
 
 
 ?>
-<div class='grid-table w-2/3 h-3/4 text-white mt-8 mx-auto text-left px-4 py-2 border-2 border-redpink-100 rounded-md'>
+<div class='grid-table w-2/3 h-3/4 text-white mt-8 mx-auto text-left px-4 py-2 border-2 border-redpink-100 rounded-md h-auto max-h-max'>
   <span id='table-heading'></span>
   <span id='table-heading'>Username</span>
   <span id='table-heading'>Watchtime [Hours]</span>
@@ -49,7 +49,7 @@ endforeach; ?>
 
 
 
-
+<div class="absolute left-1/2 -translate-x-1/2 bottom-32">
 <section
   class='pagination grid mt-12 justify-center content-center gap-4 grid-flow-col grid-cols-7 w-96 text-center absolute left-1/2 -translate-x-1/2'>
 
@@ -91,3 +91,5 @@ endforeach; ?>
             >> </a>
 
 </section>
+</div>
+<?php require '../parts/footer.php'?>

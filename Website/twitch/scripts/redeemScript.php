@@ -25,6 +25,12 @@ else if($currentItem['price'] <= $_SESSION['points']){
         $sql = "UPDATE users SET points = '$new_user_points ' WHERE username = '$username'";
         $conn->query($sql);
 
+        $itemName = $currentItem['name'];
+        $itemPrice = $currentItem['price'];
+        $username = $_SESSION['username'];
+        $sql = "INSERT INTO redeemed_items (username, item_name, price) VALUES ('$username','$itemName', '$itemPrice')";
+        $conn->query($sql);
+
 
     $_SESSION['message'] = 'You successfully redeemed '.$currentItem['name'].'.';
     $_SESSION['color'] = 'green';
@@ -35,4 +41,3 @@ else if($currentItem['price'] <= $_SESSION['points']){
     header('Location: ../');
 }
 
-?>

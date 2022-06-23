@@ -6,7 +6,7 @@ require './scripts/getAllItems.php';
 
 ?>
 <?php if (isset($_SESSION['message']) && $_SESSION['message'] != ''): ?>
-<h1 id="message" class="absolute left-1/2 -translate-x-1/2 top-16 text-<?php echo $_SESSION['color'] ?>-600">
+<h1 id="message" class="absolute left-1/2 -translate-x-1/2 top-16 text-green-600 text-<?php echo $_SESSION['color'] ?>-600">
     <?php echo $_SESSION['message']?>
     </h1>
 

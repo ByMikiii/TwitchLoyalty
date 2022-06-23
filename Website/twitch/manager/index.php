@@ -33,4 +33,9 @@ foreach ($items as $item): ?>
 <?php endforeach;?>
 </div>
 
-<button class="bg-redpink-100 p-2 rounded-md absolute left-1/2 bottom-8 -translate-x-1/2 hover:brightness-125"><a href="./create/">Create New Items</a></button>
+<div class="absolute left-1/2 bottom-8 -translate-x-1/2">
+<button class="bg-redpink-100 p-2 rounded-md hover:brightness-125 mx-4"><a href="./create/">Create New Items</a></button>
+<button class="bg-redpink-100 p-2 rounded-md hover:brightness-125 mx-4"><a href="./redeems/">Show All Reddems</a></button>
+</div>
+
+<?php require '../parts/footer.php' ?>

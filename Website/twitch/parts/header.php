@@ -1,14 +1,5 @@
 <?php 
-if(isset($_POST['username']) && !isset($_SESSION)){
-  session_start();
-  $username = $_POST['username'];
-  $points = $_POST['points'];
-  $isAdmin = $_POST['isAdmin'];
-  $_SESSION['username'] = $username;
-  $_SESSION['points'] = $points;
-  $_SESSION['isAdmin'] = $isAdmin;
 
-}
 if(!isset($_SESSION)){
   session_start();
   require_once($_SERVER['DOCUMENT_ROOT'] . '/twitch/scripts/connection.php');
