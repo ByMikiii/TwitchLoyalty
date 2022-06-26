@@ -72,9 +72,10 @@ function insertUser(value) {
   console.log(recentUsername);
   con.connect(function (err) {
     var sql = "SELECT points FROM users WHERE username = '" + recentUsername + "'";
-    con.query(sql, function (err, result, fields, rows) {
+    con.query(sql, function (err, result) {
       if (err) throw err;
       if (result.length > 0) {
+        xw
         var newUserPoints = result[0]['points'] + 1;
         addPointsToUser(recentUsername, newUserPoints);
       } else createUserDB(recentUsername);
@@ -97,7 +98,7 @@ function insertUser(value) {
 //CREATES USER IN DB
 function createUserDB(recentUsername) {
   con.connect(function (err) {
-    var sql = "INSERT INTO users (username, points) VALUES ('" + recentUsername + "', 0)";
+    var sql = "INSERT INTO users (username, points) VALUES ('" + recentUsername + "', 1)";
     con.query(sql, function (err, result) {
       if (err) throw err;
       console.log(recentUsername + ' added.');
