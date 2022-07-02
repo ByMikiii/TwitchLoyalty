@@ -1,9 +1,9 @@
 settings.js
 node_modules
 package-lock.json
-/Website/twitch/node_modules
-/Website/twitch/redirect-secret.php
-/Website/twitch/src/input.css
-/Website/twitch/package.json
-/Website/twitch/package-lock.json
-/Website/twitch/tailwind.config.js
+/Website/loyalty/node_modules
+/Website/loyalty/redirect-secret.php
+/Website/loyalty/src/input.css
+/Website/loyalty/package.json
+/Website/loyalty/package-lock.json
+/Website/loyalty/tailwind.config.js
