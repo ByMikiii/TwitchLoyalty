@@ -16,7 +16,7 @@ var listOfUsers;
 var numberOfAddedUsers = 0;
 var usersChecked = 0;
 
-const streamerName = '';//ENTER TWITCH USERNAME
+const streamerName = 'dvorson';//ENTER TWITCH USERNAME
 const liveTimer = 60 * 1000; //TIME HOW OFTEN APP CHECKS IF USER IS STREAMING
 const pointsTimer = 60 * 1000; //TIME HOW OFTEN APP ADDS POINTS TO USERS
 const pointsDelay = 1 //DELAY BETWEEN POINTS INSERT
@@ -42,7 +42,6 @@ function appRunning() {
         //IF STREAMER IS ONLINE
         else {
           console.log(streamerName + ' is live! :)');
-          usersChecked = 0;
 
           //GETS ALL CHATTERS
           fetch('https://tmi.twitch.tv/group/user/' + streamerName + '/chatters')
@@ -55,7 +54,7 @@ function appRunning() {
 
                 listOfUsers = obj.chatters['viewers'];
                 console.log('Number of chatters: ' + obj.chatter_count);
-
+                usersChecked = 0;
                 insertUser(0);
 
               })
@@ -75,7 +74,6 @@ function insertUser(value) {
     con.query(sql, function (err, result) {
       if (err) throw err;
       if (result.length > 0) {
-        xw
         var newUserPoints = result[0]['points'] + 1;
         addPointsToUser(recentUsername, newUserPoints);
       } else createUserDB(recentUsername);
@@ -87,13 +85,31 @@ function insertUser(value) {
       value++;
       insertUser(value);
     }, pointsDelay)
-  } else {
+  }
+  else {
+    con.query("SELECT * FROM users ORDER BY points DESC", function (err, result, fields) {
+      if (err) throw err;
+      for (var i = 0; i < result.length; i++) {
+        var usernamename = result[i]['username']
+        var userWatchtime = result[i]['watchtime'];
+        userWatchtime = userWatchtime + 0.0166666667; //1 minute in hours
+        var maxPoints;
+        result[i]['points'] > result[i]['max_points'] ? maxPoints = result[i]['points'] : maxPoints = result[i]['max_points'];
+        var order = i + 1;
+
+        var sql = "UPDATE users SET user_order = " + order + ", max_points = " + maxPoints + ", watchtime = " + userWatchtime + "  WHERE username = '" + usernamename + "'";
+        con.query(sql, function (err, result) {
+          if (err) throw err;
+        });
+      }
+    })
     console.log(numberOfAddedUsers + ' new users.');
     console.log(usersChecked + ' users checked.');
     numberOfAddedUsers = 0;
     setTimeout(appRunning, pointsTimer - (usersChecked * pointsDelay));
   }
 }
+
 
 //CREATES USER IN DB
 function createUserDB(recentUsername) {
@@ -124,18 +140,19 @@ function addPointsToUser(recentUsername, newUserPoints) {
 
 
 
-
-
+// drop database TwitchLoyalty;
 // create database TwitchLoyalty;
 // use TwitchLoyalty;
 // create table users
 //   (
-//     user_id       int auto_increment
+//     user_id        int auto_increment
 //         primary key,
+//     user_order int default 9999999,
 //     username varchar(64) null,
 //     points   int         null,
-//     max_points int null,
-//     admin BOOLEAN default 0
+//     max_points int default 0,
+//     admin BOOLEAN default 0,
+//     watchtime float default 0
 //   );
 // create table items
 //   (
