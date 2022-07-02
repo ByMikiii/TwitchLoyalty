@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .pagenumber{
+    @apply bg-white p-1.5 rounded-md border border-redpink-100  bg-redpink-100 text-darkblue-100 hover:bg-darkblue-100 active:bg-darkblue-100 hover:text-redpink-100;
+  }
+  .grid-table{
+    display: grid;
+    grid-template-columns: 70px 200px 160px 2fr;
+  }
+  .items-table{
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 95px 2fr 100px 100px;
+  }
+  #table-heading{
+    @apply font-bold mb-3 border-b-2 border-redpink-100;
+  }
+  .image-size{
+    max-height: 134px;
+    width: 222px;
+  }
+  .max-height{
+    max-height: 75%;
+  }
+  .description-height{
+    height: 82px;
+     }
+  .create-input{
+    @apply my-2 p-1 rounded-sm
+  }
+  .min-height{
+    height: 540px;
+  }
+  }
+
+
+  @media (min-width: 1536px) {
+
+  }
+
+  @media (min-width: 1280px) {
+  .message-margins{
+    margin-top: 0.5%;
+    margin-bottom: 1%;
+  }
+  }
+
+@media (min-width: 1100px){
+  .message-margins{
+    margin-top: 0%;
+    margin-bottom: 0%;
+  }
+
+
+  #username {
+    display: block;
+  }
+  #username:hover + #dropdown {
+    display:block;
+  }
+  #dropdown {
+    display:none;
+    }
+    #dropdown:hover,
+    #dropdown:active {
+      display:block;
+      }
+
+  .pagenumber:hover,
+  .pagenumber:active{
+    @apply font-bold;
+  }
+}

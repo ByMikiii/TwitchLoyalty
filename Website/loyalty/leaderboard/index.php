@@ -40,8 +40,8 @@ $maxPage = ceil($numberOfUsers / $results_per_page);
 
 
 ?>
-<p id="message" class="absolute left-1/2 -translate-x-1/2 text-gray-200">Synced with twitch channel Resttpowered (All data are since 02. 07. 2022)</p>
-<div id="window" class="border-2 border-redpink-100 w-2/3 mt-8 mx-auto min-height max-h-max rounded-md">
+<p id="message" class="relative text-gray-200 text-center message-margins">Synced with twitch channel Resttpowered (All data are since 02. 07. 2022)</p>
+<div id="window" class="border-2 border-redpink-100 w-2/3 mx-auto min-height max-h-max rounded-md">
 <div class='grid-table text-white text-left px-4 py-2' >
   <span id='table-heading'><a href="?order=user_order&sort=<?php echo $newSort?>">#</a></span>
   <span id='table-heading'><a href="?order=username&sort=<?php echo $newSort?>">Username</a></span>

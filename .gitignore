@@ -3,7 +3,6 @@ node_modules
 package-lock.json
 /Website/loyalty/node_modules
 /Website/loyalty/redirect-secret.php
-/Website/loyalty/src/input.css
 /Website/loyalty/package.json
 /Website/loyalty/package-lock.json
 /Website/loyalty/tailwind.config.js

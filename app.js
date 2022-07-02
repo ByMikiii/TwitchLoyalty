@@ -139,7 +139,7 @@ function addPointsToUser(recentUsername, newUserPoints) {
 
 
 
-
+//
 // drop database TwitchLoyalty;
 // create database TwitchLoyalty;
 // use TwitchLoyalty;
@@ -163,7 +163,7 @@ function addPointsToUser(recentUsername, newUserPoints) {
 //     active BOOLEAN default 1,
 //     description text,
 //     items_left int default 0,
-//     url_image text default 'none'
+//     url_image text NULL
 //   );
 // create table redeemed_items
 //   (
