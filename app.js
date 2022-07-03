@@ -16,13 +16,14 @@ var listOfUsers;
 var numberOfAddedUsers = 0;
 var usersChecked = 0;
 
-const streamerName = 'dvorson';//ENTER TWITCH USERNAME
+const streamerName = '';//ENTER TWITCH USERNAME
 const liveTimer = 60 * 1000; //TIME HOW OFTEN APP CHECKS IF USER IS STREAMING
 const pointsTimer = 60 * 1000; //TIME HOW OFTEN APP ADDS POINTS TO USERS
 const pointsDelay = 1 //DELAY BETWEEN POINTS INSERT
 
 function appRunning() {
   usersChecked = 0;
+  numberOfAddedUsers = 0;
   //CHECKS IF STREAMER IS STREAMING
   fetch('https://api.twitch.tv/helix/search/channels?query=' + streamerName, {
     headers: {
@@ -81,10 +82,11 @@ function insertUser(value) {
       value++;
       insertUser(value);
     }, pointsDelay)
-  }else {
+  } else {
     setTimeout(() => {
       con.query("SELECT * FROM users ORDER BY points DESC", function (err, result, fields) {
         if (err) throw err;
+        console.log('users in DB: '+result.length);
         for (var i = 0; i < result.length; i++) {
           var usernamename = result[i]['username']
           var userWatchtime = result[i]['watchtime'];
@@ -94,15 +96,15 @@ function insertUser(value) {
           var order = i + 1;
 
           var sql = "UPDATE users SET user_order = " + order + ", max_points = " + maxPoints + ", watchtime = " + userWatchtime + "  WHERE username = '" + usernamename + "'";
-          if(i == result.length-1){
-            results(numberOfAddedUsers,usersChecked,pointsTimer,pointsDelay);
+          if (i == result.length - 1) {
+            results(numberOfAddedUsers, usersChecked, pointsTimer, pointsDelay);
           }
           con.query(sql, function (err, result) {
             if (err) throw err;
           });
         }
       })
-    }, 1000)
+    }, 3000)
   }
 }
 
@@ -120,6 +122,10 @@ function results(numberOfAddedUsers, usersChecked, pointsTimer, pointsDelay){
   usersChecked = 0;
 }
 
+function setUserOrder(){
+
+}
+
 
 //CREATES USER IN DB
 function createUserDB(recentUsername) {
@@ -127,12 +133,12 @@ function createUserDB(recentUsername) {
     var sql = "INSERT INTO users (username, points) VALUES ('" + recentUsername + "', 1)";
     con.query(sql, function (err, result) {
       if (err) throw err;
-      console.log(recentUsername + ' created.');
+      //console.log(recentUsername + ' created.');
+          numberOfAddedUsers++;
     }
     )
   }
   )
-  numberOfAddedUsers++;
 }
 
 function addPointsToUser(recentUsername, newUserPoints) {
@@ -140,15 +146,15 @@ function addPointsToUser(recentUsername, newUserPoints) {
     var sql = "UPDATE users SET points = " + newUserPoints + " WHERE username = '" + recentUsername + "'";
     con.query(sql, function (err, result) {
       if (err) throw err;
-     console.log('Points added to ' + recentUsername);
+     //console.log('Points added to ' + recentUsername);
     }
     )
   }
   )
 }
-
-
-
+//
+//
+//
 //
 // drop database TwitchLoyalty;
 // create database TwitchLoyalty;
