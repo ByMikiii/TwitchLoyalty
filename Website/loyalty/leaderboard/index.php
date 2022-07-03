@@ -40,20 +40,20 @@ $maxPage = ceil($numberOfUsers / $results_per_page);
 
 
 ?>
-<p id="message" class="relative text-gray-200 text-center message-margins">Synced with twitch channel Resttpowered (All data are since 02. 07. 2022)</p>
+<p class="relative text-gray-200 text-center message-margins">Synced with twitch channel <a href="https://www.twitch.tv/resttpowered" class="font-bold hover:text-redpink-100">Resttpowered</a> (All data are since 03. 07. 2022)</p>
 <div id="window" class="border-2 border-redpink-100 w-2/3 mx-auto min-height max-h-max rounded-md">
 <div class='grid-table text-white text-left px-4 py-2' >
-  <span id='table-heading'><a href="?order=user_order&sort=<?php echo $newSort?>">#</a></span>
-  <span id='table-heading'><a href="?order=username&sort=<?php echo $newSort?>">Username</a></span>
-  <span id='table-heading'><a href="?order=watchtime&sort=<?php echo $newSort?>">Watchtime [Hours]</a></span>
-  <span id='table-heading' class='text-right'><a href="?order=points&sort=<?php echo $newSort?>">Points</a></span>
+  <span id='table-heading'><a href="?order=user_order&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">#</a></span>
+  <span id='table-heading'><a href="?order=username&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Username</a></span>
+  <span id='table-heading'><a href="?order=watchtime&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Watchtime [Hours]</a></span>
+  <span id='table-heading' class='text-right'><a href="?order=points&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Points</a></span>
 
   <?php
   $numberOfUser = $page * $results_per_page + 1 - $results_per_page;
 foreach($users as $user):
 ?>
   <span id='table-item' class='text-left'><?php echo $user['user_order']?></span>
-  <span id='table-item'><?php echo $user['username']?></span>
+  <span id='table-item' class="<?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold';}}?>"><?php echo $user['username']?></span>
   <span id='table-item' class='text-center'><?php if($user['watchtime'] >= 10)echo round($user['watchtime']); else echo round($user['watchtime'], 2)?></span>
   <span id='table-item' class='text-right'><?php echo $user['points']?></span>
   <?php
@@ -71,7 +71,7 @@ endforeach; ?>
     </form>
 <?php if(isset($_GET['search']) || isset($_GET['sort'])): ?>
 <div class="w-2/3 mx-auto mt-1">
-    <a href="./" class="text-redpink-100">Remove Filters</a>
+    <a href="./<?php if(isset($_GET['page'])){echo '?page='.$_GET['page'];} ?>" class="text-redpink-100">Remove Filters</a>
 </div>
 <?php
     endif;
@@ -107,21 +107,21 @@ endforeach; ?>
   <a class="pagenumber" href="./?page=1">
     << </a>
 
-      <a class="pagenumber" href="<?php if($page > 1){ echo './?page='; echo $page - 1;}?>">
+      <a class="pagenumber" href="<?php if($page > 1){ echo './?page='; echo $page - 1; if(isset($_GET['sort'])){ echo '&order='.$_GET['order'].'&sort='.$_GET['sort'];}}?>">
         < </a>
 
-          <a class="pagenumber <?php if($page == $firstButton)echo 'brightness-125'?>"
-            href="./?page=<?php echo $firstButton?>"><?php echo $firstButton ?></a>
+          <a class="pagenumber <?php if($page == $firstButton)echo 'brightness-110 font-black'?>"
+            href="./?page=<?php echo $firstButton; if(isset($_GET['sort'])){ echo '&order='.$_GET['order'].'&sort='.$_GET['sort'];}?>"><?php echo $firstButton ?></a>
 
-          <a class="pagenumber <?php if($page == $secondButton)echo 'brightness-125'?>"
-            href="./?page=<?php echo $secondButton?> "><?php echo $secondButton ?></a>
+          <a class="pagenumber <?php if($page == $secondButton)echo 'brightness-110 font-black'?>"
+            href="./?page=<?php echo $secondButton; if(isset($_GET['sort'])){ echo '&order='.$_GET['order'].'&sort='.$_GET['sort'];}?> "><?php echo $secondButton ?></a>
 
           <a class="pagenumber"
-            href="<?php if($thirdButton == ''){}else{echo './?page='; echo $thirdButton;} ?> "><?php echo $thirdButton ?></a>
+            href="<?php if($thirdButton == ''){}else{echo './?page='; echo $thirdButton; if(isset($_GET['sort'])){ echo '&order='.$_GET['order'].'&sort='.$_GET['sort'];}} ?> "><?php echo $thirdButton ?></a>
 
-          <a class="pagenumber" href="<?php if($page < $maxPage){ echo './?page='; echo $page + 1;}?>"> > </a>
+          <a class="pagenumber" href="<?php if($page < $maxPage){ echo './?page='; echo $page + 1; if(isset($_GET['sort'])){ echo '&order='.$_GET['order'].'&sort='.$_GET['sort'];}};?>"> > </a>
 
-          <a class="pagenumber" href="./?page=<?php echo $maxPage;?>">
+          <a class="pagenumber" href="./?page=<?php echo $maxPage; if(isset($_GET['sort'])){ echo '&order='.$_GET['order'].'&sort='.$_GET['sort'];}?>">
             >> </a>
 
 </section>

@@ -27,7 +27,7 @@ if(!isset($_SESSION)){
     <a href="/loyalty/manager/" class=' hover:mb-0.5'>Manage Items</a>
     <?php endif; ?>
     <?php if(!isset($_SESSION['username'])): ?>
-    <button class='text-gray-900 bg-redpink-100 p-1.5 font-semibold rounded-md hover:brightness-110 ml-auto items-end'>
+    <button class='text-gray-900 bg-redpink-100 p-1.5 px-2 font-bold rounded-md hover:brightness-110 ml-auto items-end'>
       <a
         href="https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=pl88xj79ewii5nqmb51lnokicqo1ri&redirect_uri=http://localhost/loyalty/redirect.php&scope=channel%3Amanage%3Apolls+channel%3Aread%3Apolls&state=c3ab8aa609ea11e793ae92361f002671">Login
         in with Twitch</a></button>

@@ -4,7 +4,7 @@
 
 @layer base {
   .pagenumber{
-    @apply bg-white p-1.5 rounded-md border border-redpink-100  bg-redpink-100 text-darkblue-100 hover:bg-darkblue-100 active:bg-darkblue-100 hover:text-redpink-100;
+    @apply bg-white p-1.5 rounded-md border font-semibold border-redpink-100  bg-redpink-100 text-darkblue-100 hover:bg-darkblue-100 active:bg-darkblue-100 hover:text-redpink-100;
   }
   .grid-table{
     display: grid;
@@ -35,23 +35,27 @@
   }
   }
 
-
-  @media (min-width: 1536px) {
-
-  }
-
-  @media (min-width: 1280px) {
-  .message-margins{
-    margin-top: 0.5%;
-    margin-bottom: 1%;
-  }
-  }
-
 @media (min-width: 1100px){
   .message-margins{
     margin-top: 0%;
     margin-bottom: 0%;
   }
+
+  @media (min-width: 1280px) {
+    .message-margins{
+      margin-top: 0.5%;
+      margin-bottom: 1%;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .message-margins{
+      margin-top: 0.5%;
+      margin-bottom: 4.5%;
+    }
+  }
+
+
 
 
   #username {

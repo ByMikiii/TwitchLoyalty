@@ -5,7 +5,7 @@ import mysql from 'mysql';
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "root",
   database: "TwitchLoyalty"
 });
 
@@ -22,6 +22,7 @@ const pointsTimer = 60 * 1000; //TIME HOW OFTEN APP ADDS POINTS TO USERS
 const pointsDelay = 1 //DELAY BETWEEN POINTS INSERT
 
 function appRunning() {
+  usersChecked = 0;
   //CHECKS IF STREAMER IS STREAMING
   fetch('https://api.twitch.tv/helix/search/channels?query=' + streamerName, {
     headers: {
@@ -42,7 +43,6 @@ function appRunning() {
         //IF STREAMER IS ONLINE
         else {
           console.log(streamerName + ' is live! :)');
-
           //GETS ALL CHATTERS
           fetch('https://tmi.twitch.tv/group/user/' + streamerName + '/chatters')
             .then(
@@ -53,14 +53,11 @@ function appRunning() {
                 var obj = JSON.parse(json);
 
                 listOfUsers = obj.chatters['viewers'];
-                console.log('Number of chatters: ' + obj.chatter_count);
-                usersChecked = 0;
+                //console.log('Number of chatters: ' + obj.chatter_count);
                 insertUser(0);
 
               })
-
         }
-
       })
 }
 
@@ -68,7 +65,6 @@ appRunning();
 
 function insertUser(value) {
   var recentUsername = listOfUsers[value];
-  console.log(recentUsername);
   con.connect(function (err) {
     var sql = "SELECT points FROM users WHERE username = '" + recentUsername + "'";
     con.query(sql, function (err, result) {
@@ -85,29 +81,43 @@ function insertUser(value) {
       value++;
       insertUser(value);
     }, pointsDelay)
-  }
-  else {
-    con.query("SELECT * FROM users ORDER BY points DESC", function (err, result, fields) {
-      if (err) throw err;
-      for (var i = 0; i < result.length; i++) {
-        var usernamename = result[i]['username']
-        var userWatchtime = result[i]['watchtime'];
-        userWatchtime = userWatchtime + 0.0166666667; //1 minute in hours
-        var maxPoints;
-        result[i]['points'] > result[i]['max_points'] ? maxPoints = result[i]['points'] : maxPoints = result[i]['max_points'];
-        var order = i + 1;
+  }else {
+    setTimeout(() => {
+      con.query("SELECT * FROM users ORDER BY points DESC", function (err, result, fields) {
+        if (err) throw err;
+        for (var i = 0; i < result.length; i++) {
+          var usernamename = result[i]['username']
+          var userWatchtime = result[i]['watchtime'];
+          userWatchtime = userWatchtime + 0.0166666667; //1 minute in hours
+          var maxPoints;
+          result[i]['points'] > result[i]['max_points'] ? maxPoints = result[i]['points'] : maxPoints = result[i]['max_points'];
+          var order = i + 1;
 
-        var sql = "UPDATE users SET user_order = " + order + ", max_points = " + maxPoints + ", watchtime = " + userWatchtime + "  WHERE username = '" + usernamename + "'";
-        con.query(sql, function (err, result) {
-          if (err) throw err;
-        });
-      }
-    })
-    console.log(numberOfAddedUsers + ' new users.');
-    console.log(usersChecked + ' users checked.');
-    numberOfAddedUsers = 0;
-    setTimeout(appRunning, pointsTimer - (usersChecked * pointsDelay));
+          var sql = "UPDATE users SET user_order = " + order + ", max_points = " + maxPoints + ", watchtime = " + userWatchtime + "  WHERE username = '" + usernamename + "'";
+          if(i == result.length-1){
+            results(numberOfAddedUsers,usersChecked,pointsTimer,pointsDelay);
+          }
+          con.query(sql, function (err, result) {
+            if (err) throw err;
+          });
+        }
+      })
+    }, 1000)
   }
+}
+
+function results(numberOfAddedUsers, usersChecked, pointsTimer, pointsDelay){
+  //console.log(numberOfAddedUsers + ' new users.');
+  //console.log(usersChecked + ' users checked.');
+
+  const date = Date();
+  const new_date = new Date(date);
+  console.log(new_date.getHours()+':'+new_date.getMinutes()+':'+new_date.getSeconds()+':'+new_date.getMilliseconds());
+
+
+  numberOfAddedUsers = 0;
+  setTimeout(appRunning, pointsTimer - (usersChecked * pointsDelay) - 2000);
+  usersChecked = 0;
 }
 
 
@@ -117,7 +127,7 @@ function createUserDB(recentUsername) {
     var sql = "INSERT INTO users (username, points) VALUES ('" + recentUsername + "', 1)";
     con.query(sql, function (err, result) {
       if (err) throw err;
-      console.log(recentUsername + ' added.');
+      //console.log(recentUsername + ' created.');
     }
     )
   }
@@ -130,7 +140,7 @@ function addPointsToUser(recentUsername, newUserPoints) {
     var sql = "UPDATE users SET points = " + newUserPoints + " WHERE username = '" + recentUsername + "'";
     con.query(sql, function (err, result) {
       if (err) throw err;
-      console.log('Points added to ' + recentUsername);
+     //console.log('Points added to ' + recentUsername);
     }
     )
   }
@@ -147,7 +157,7 @@ function addPointsToUser(recentUsername, newUserPoints) {
 //   (
 //     user_id        int auto_increment
 //         primary key,
-//     user_order int default 9999999,
+//     user_order int default 9999,
 //     username varchar(64) null,
 //     points   int         null,
 //     max_points int default 0,
