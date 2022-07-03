@@ -107,8 +107,8 @@ function insertUser(value) {
 }
 
 function results(numberOfAddedUsers, usersChecked, pointsTimer, pointsDelay){
-  //console.log(numberOfAddedUsers + ' new users.');
-  //console.log(usersChecked + ' users checked.');
+  console.log(numberOfAddedUsers + ' new users.');
+  console.log(usersChecked + ' users checked.');
 
   const date = Date();
   const new_date = new Date(date);
@@ -127,7 +127,7 @@ function createUserDB(recentUsername) {
     var sql = "INSERT INTO users (username, points) VALUES ('" + recentUsername + "', 1)";
     con.query(sql, function (err, result) {
       if (err) throw err;
-      //console.log(recentUsername + ' created.');
+      console.log(recentUsername + ' created.');
     }
     )
   }
@@ -140,7 +140,7 @@ function addPointsToUser(recentUsername, newUserPoints) {
     var sql = "UPDATE users SET points = " + newUserPoints + " WHERE username = '" + recentUsername + "'";
     con.query(sql, function (err, result) {
       if (err) throw err;
-     //console.log('Points added to ' + recentUsername);
+     console.log('Points added to ' + recentUsername);
     }
     )
   }

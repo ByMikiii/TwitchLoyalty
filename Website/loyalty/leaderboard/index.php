@@ -52,10 +52,10 @@ $maxPage = ceil($numberOfUsers / $results_per_page);
   $numberOfUser = $page * $results_per_page + 1 - $results_per_page;
 foreach($users as $user):
 ?>
-  <span id='table-item' class='text-left'><?php echo $user['user_order']?></span>
+  <span id='table-item' class='text-left <?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold text-redpink-100';}}?>'><?php echo $user['user_order']?></span>
   <span id='table-item' class="<?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold';}}?>"><?php echo $user['username']?></span>
-  <span id='table-item' class='text-center'><?php if($user['watchtime'] >= 10)echo round($user['watchtime']); else echo round($user['watchtime'], 2)?></span>
-  <span id='table-item' class='text-right'><?php echo $user['points']?></span>
+  <span id='table-item' class='text-center <?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold text-redpink-100';}}?>'><?php if($user['watchtime'] >= 10)echo round($user['watchtime']); else echo round($user['watchtime'], 2)?></span>
+  <span id='table-item' class='text-right <?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold text-redpink-100';}}?>'><?php echo $user['points']?></span>
   <?php
 $numberOfUser++;
 endforeach; ?>
