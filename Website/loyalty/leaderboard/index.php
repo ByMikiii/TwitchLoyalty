@@ -1,59 +1,56 @@
-<?php 
+<?php
 $pageTitle = 'Leaderboard';
 require '../parts/header.php';
-
-if (!isset ($_GET['page']) ) {  
-  $page = 1;  
-} else {  
-  $page = $_GET['page'];  
-}  
+if (!isset ($_GET['page']) ) {
+    $page = 1;
+} else {
+    $page = $_GET['page'];
+}
 
 if($page > 1){
-  $pageMinus = $page - 1;
+    $pageMinus = $page - 1;
 }else $pageMinus = 1;
 $pagePlus = $page + 1;
 if($page - 2 <= 1){
-  $firstPagination =  1;
+    $firstPagination =  1;
 }else $firstPagination = $page - 2;
-$results_per_page = 20;  
+$results_per_page = 20;
 $page_first_result = ($page-1) * $results_per_page;
 
-require '../scripts/connection.php';
-
-if(!isset($_GET['sort'])){ $sort = 'asc'; $order = 'user_order';}
+if(!isset($_GET['sort'])){ $sort = 'desc'; $order = 'points';}
 else{
     $sort = $_GET['sort'];
     $order = $_GET['order'];
 }
-
-
-$newSort = $sort;
-$newSort == 'desc' ? $newSort = 'asc' : $newSort = 'desc';
-
+require '../scripts/connection.php';
 if(isset($_GET['search'])){
-    require_once('../scripts/search.php');
+   require_once('../scripts/search.php');
 }else {
     require '../scripts/getAllUsers.php';
 }
 
+$newSort = $sort;
+$newSort == 'desc' ? $newSort = 'asc' : $newSort = 'desc';
+
+
+
 $maxPage = ceil($numberOfUsers / $results_per_page);
 
-
 ?>
-<p class="relative text-gray-200 text-center message-margins">Synced with twitch channel <a href="https://www.twitch.tv/resttpowered" class="font-bold hover:text-redpink-100">Resttpowered</a> (All data are since 03. 07. 2022)</p>
-<div id="window" class="border-2 border-redpink-100 w-2/3 mx-auto min-height max-h-max rounded-md">
-<div class='grid-table text-white text-left px-4 py-2' >
-  <span id='table-heading'><a href="?order=user_order&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">#</a></span>
-  <span id='table-heading'><a href="?order=username&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Username</a></span>
-  <span id='table-heading'><a href="?order=watchtime&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Watchtime [Hours]</a></span>
-  <span id='table-heading' class='text-right'><a href="?order=points&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Points</a></span>
+    <p class="relative text-gray-200 text-center message-margins">Synced with twitch channel <a href="https://www.twitch.tv/resttpowered" class="font-bold hover:text-redpink-100">Resttpowered</a> (All data are since 03. 07. 2022)</p>
+    <div id="window" class="border-2 border-redpink-100 w-2/3 mx-auto min-height max-h-max rounded-md">
+        <div class='grid-table text-white text-left px-4 py-2' >
+            <span id='table-heading'><a href="?order=userOrder&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">#</a></span>
+            <span id='table-heading'><a href="?order=username&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Username</a></span>
+            <span id='table-heading'><a href="?order=watchtime&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Watchtime [Hours]</a></span>
+            <span id='table-heading' class='text-right'><a href="?order=points&sort=<?php echo $newSort; if(isset($_GET['page'])){echo '&page='.$_GET['page'];}?>">Points</a></span>
 
   <?php
   $numberOfUser = $page * $results_per_page + 1 - $results_per_page;
 foreach($users as $user):
 ?>
-  <span id='table-item' class='text-left <?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold text-redpink-100';}}?>'><?php echo $user['user_order']?></span>
-  <span id='table-item' class="<?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold';}}?>"><?php echo $user['username']?></span>
+  <span id='table-item' class='text-left <?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold text-redpink-100';}}?>'><?if(!isset($_GET['search'])){echo $user['userOrder'];}?></span>
+  <span id='table-item' class="<?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold text-redpink-100';}}?>"><?php echo $user['username']?></span>
   <span id='table-item' class='text-center <?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold text-redpink-100';}}?>'><?php if($user['watchtime'] >= 10)echo round($user['watchtime']); else echo round($user['watchtime'], 2)?></span>
   <span id='table-item' class='text-right <?php if(isset($_SESSION['username'])){if($user['username']==$_SESSION['username']){echo 'font-bold text-redpink-100';}}?>'><?php echo $user['points']?></span>
   <?php

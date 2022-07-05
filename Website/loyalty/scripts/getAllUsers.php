@@ -1,7 +1,7 @@
 <?php 
 if(isset($page_first_result)){
-$sql = "SELECT * FROM users ORDER BY ".$order." ".$sort." LIMIT " . $page_first_result . ',' . $results_per_page;
-$result = $conn->query($sql);
+    $sql="SELECT s.*, @rownum := @rownum + 1 AS userOrder,username,points,watchtime FROM users s, (SELECT @rownum := $page_first_result) r ORDER BY ".$order." ".$sort.", username asc LIMIT " . $page_first_result .", " .$results_per_page.";";
+    $result = $conn->query($sql);
 $users = [];
 
 while($user = $result->fetch_assoc()){

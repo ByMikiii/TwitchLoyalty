@@ -18,8 +18,8 @@ if(!isset($_SESSION)){
   <title><?php echo $pageTitle;?></title>
 </head>
 
-<body class='bg-darkblue-100'>
-  <div
+<body class='bg-darkblue-100 text-gray-400'>
+  <header
     class='text-redpink-100 font-medium text-lg relative border-b border-redpink-100 p-2 px-5 flex items-center h-14'>
     <a href="/loyalty/" class=' mr-6 hover:mb-0.5'>Store</a>
     <a href="/loyalty/leaderboard/" class=' mr-6 hover:mb-0.5'>Leaderboard</a>
@@ -52,4 +52,4 @@ if(!isset($_SESSION)){
       </div>
     </div>
     <?php endif; ?>
-  </div>
+  </header>

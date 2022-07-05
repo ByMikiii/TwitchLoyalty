@@ -1,8 +1,15 @@
 <?php
 if(isset($_GET['search'])) {
     $searchUsername = $_GET['search'];
+
+    if(strlen($searchUsername) >= 3){
+        $search = "'%".$searchUsername."%'";
+    }else{
+        $search = "'".$searchUsername."%'";
+    }
+
     if (isset($page_first_result)) {
-        $sql = "SELECT * FROM users WHERE username LIKE '%" . $searchUsername . "%' ORDER BY points DESC LIMIT " . $page_first_result . ',' . $results_per_page;
+        $sql = "SELECT * FROM users WHERE username LIKE ".$search." ORDER BY points DESC LIMIT " . $page_first_result . ',' . $results_per_page;
         $result = $conn->query($sql);
         $users = [];
 
