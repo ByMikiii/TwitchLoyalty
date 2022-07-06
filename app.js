@@ -133,7 +133,7 @@ function addPointsToUser(recentUsername, newUserPoints, newWatchtime) {
 }
 
 
-
+//
 // drop database TwitchLoyalty;
 // create database TwitchLoyalty;
 // use TwitchLoyalty;

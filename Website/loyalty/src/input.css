@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
   .pagenumber{
     @apply bg-white p-1.5 rounded-md border font-semibold border-redpink-100  bg-redpink-100 text-darkblue-100 hover:bg-darkblue-100 active:bg-darkblue-100 hover:text-redpink-100;
   }
@@ -12,7 +21,7 @@
   }
   .items-table{
     display: grid;
-    grid-template-columns: 1.5fr 1fr 95px 2fr 100px 100px;
+    grid-template-columns: 1.5fr 1fr 95px 1fr 100px;
   }
   #table-heading{
     @apply font-bold mb-3 border-b-2 border-redpink-100;

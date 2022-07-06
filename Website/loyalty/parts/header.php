@@ -1,4 +1,5 @@
-<?php 
+<?php
+session_start();
 
 if(!isset($_SESSION)){
   session_start();
@@ -9,6 +10,7 @@ if(!isset($_SESSION)){
   }
 }
 
+
 ?>
 
 <head>
@@ -18,7 +20,7 @@ if(!isset($_SESSION)){
   <title><?php echo $pageTitle;?></title>
 </head>
 
-<body class='bg-darkblue-100 text-gray-400'>
+<body class='bg-darkblue-100 text-gray-400 scrollbar-hide'>
   <header
     class='text-redpink-100 font-medium text-lg relative border-b border-redpink-100 p-2 px-5 flex items-center h-14'>
     <a href="/loyalty/" class=' mr-6 hover:mb-0.5'>Store</a>

@@ -15,10 +15,11 @@ require './scripts/getAllItems.php';
 <section class='flex flex-wrap w-5/6 relative mx-auto mt-10 justify-center'>
   <?php
 foreach($items as $item): ?>
+<?php if($item['active'] == 1): ?>
   <div class="item relative w-60 h-80 border border-redpink-100 rounded-md text-white mx-6 my-4 p-2">
     <img class='image-size' src="<?php echo $item['url_image']?>" alt="<?php echo $item['name'] ?>">
     <h1 class='font-bold text-xl text-redpink-100 mt-2 overflow-hidden'><?php echo $item['name'] ?></h1>
-    <p class='text-xs description-height overflow-hidden'>
+    <p class='text-xs description-height overflow-y-auto scrollbar-hide'>
       <?php echo $item['description']?>
     </p>
     <div class="mt-4 mb-0 flex">
@@ -36,7 +37,8 @@ foreach($items as $item): ?>
       <h2 class='text-sm ml-auto mr-0 self-center'><?php echo $item['items_left'].' left' ?></h2>
     </div>
   </div>
-  <?php
+        <?php
+    endif;
 endforeach;
 ?>
 </section>

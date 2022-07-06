@@ -1,6 +1,6 @@
 <?php 
 if(isset($page_first_result)){
-    $sql="SELECT s.*, @rownum := @rownum + 1 AS userOrder,username,points,watchtime FROM users s, (SELECT @rownum := $page_first_result) r ORDER BY ".$order." ".$sort.", username asc LIMIT " . $page_first_result .", " .$results_per_page.";";
+    $sql="SELECT (@row_number:=@row_number+1) AS userOrder,username,points,watchtime FROM users, (SELECT @row_number:=".$page_first_result.") AS x ORDER BY ".$order." ".$sort.", username asc LIMIT " . $page_first_result .", " .$results_per_page.";";
     $result = $conn->query($sql);
 $users = [];
 

@@ -9,5 +9,5 @@ if(isset($_GET['item'])){
     if ($conn->query($sql) === TRUE) {
         echo "Record deleted successfully";
     }
-    header('Location: /loyalty/manager/');
+    header('Location: /loyalty/manager/?message=Item deleted successfully. :)');
 }

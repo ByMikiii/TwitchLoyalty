@@ -11,7 +11,7 @@ if($currentUser['admin'] == 0){
 }}else exit;
 ?>
 
-<section class="mx-auto w-5/6 text-left  h-3/4 overflow-scroll mt-10">
+<section class="mx-auto w-5/6 text-left  h-3/4 overflow-y-auto scrollbar-hide mt-10">
 <h2 class="text-2xl text-gray-200 border-b-2 border-redpink-100 pl-2  ">Redeemed Items</h2>
     <div class="flex text-redpink-100 ml-4 text-xl mb-3">
         <h2 class="">Username</h2>
